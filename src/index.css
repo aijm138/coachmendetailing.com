@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global base styles */
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-[color:var(--bg)] text-[color:var(--fg)] font-sans antialiased;
+  }
+  :root {
+    /* Kanagawa dragon-inspired CSS vars */
+    --bg: #1F1F28; /* kano.bg */
+    --bg-alt: #16161D; /* kano.bgAlt */
+    --fg: #DCD7BA; /* kano.fg */
+    --fg-dim: #C8C093; /* kano.fgDim */
+    --gold: #E6C384; /* kano.gold */
+    --gray: #727169; /* kano.gray */
+    --border: #2A2A37; /* kano.border */
+    --overlay: rgba(0,0,0,0.5);
+  }
+}
+
+/* Reusable utility classes */
+@layer components {
+  .container-page { @apply max-w-screen-xl mx-auto px-4; }
+  .card {
+    @apply rounded-xl border bg-[color:var(--bg-alt)] border-[color:var(--border)] shadow-sm;
+  }
+  .card-hover { @apply transition-transform hover:-translate-y-0.5 hover:shadow-md; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md px-5 py-3 font-medium text-[color:var(--bg)] bg-[color:var(--gold)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color:var(--gold)] focus:ring-offset-[color:var(--bg)] transition-colors;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md px-5 py-3 font-medium text-[color:var(--fg)] border border-[color:var(--gold)] hover:bg-[color:var(--bg-alt)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[color:var(--gold)] focus:ring-offset-[color:var(--bg)] transition-colors;
+  }
+}
