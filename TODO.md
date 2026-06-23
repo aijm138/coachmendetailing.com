@@ -1,0 +1,2 @@
+- [ ] Add vehicle-type-specific pricing (sedan, SUV, truck, etc.) — currently all plans use a single flat rate regardless of vehicle type
+- [ ] Add a "notes" free-text field to the booking flow so customers can include special instructions (e.g. "park in driveway", "dog in yard")

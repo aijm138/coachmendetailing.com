@@ -1,47 +1,61 @@
 import React from 'react';
 import Button from './ui/Button';
 import type { PricingPlan } from '../types/pricing';
+import type { Plan } from '../types/booking';
 
 const plans: PricingPlan[] = [
   {
     id: 'basic',
     name: 'Basic',
     price: 99,
+    amountCents: 9900,
     features: [
       'Exterior hand wash',
       'Tire shine',
       'Quick interior vacuum',
       'Window clean',
     ],
-    ctaHref: '#contact',
   },
   {
     id: 'deluxe',
     name: 'Deluxe',
     price: 179,
+    amountCents: 17900,
     features: [
       'Everything in Basic',
       'Interior deep clean',
       'Spray wax protection',
       'Plastic and trim refresh',
     ],
-    ctaHref: '#contact',
   },
   {
     id: 'platinum',
     name: 'Platinum',
     price: 299,
+    amountCents: 29900,
     features: [
       'Everything in Deluxe',
       'Paint decontamination',
       'Ceramic spray sealant',
       'Leather clean and condition',
     ],
-    ctaHref: '#contact',
   },
 ];
 
-export function Pricing() {
+interface PricingProps {
+  onSelectPlan: (plan: Plan) => void;
+}
+
+export function Pricing({ onSelectPlan }: PricingProps) {
+  const handleSelect = (plan: PricingPlan) => {
+    onSelectPlan({
+      id: plan.id,
+      label: plan.name,
+      amountCents: plan.amountCents,
+      features: plan.features,
+    });
+  };
+
   return (
     <section id="pricing" aria-labelledby="pricing-heading" className="py-20">
       <div className="container-page">
@@ -68,7 +82,11 @@ export function Pricing() {
                 </ul>
               </div>
               <div className="p-6 pt-0">
-                <Button as="a" href={plan.ctaHref} aria-label={`Choose ${plan.name} plan`} className="w-full">
+                <Button
+                  onClick={() => handleSelect(plan)}
+                  aria-label={`Choose ${plan.name} plan`}
+                  className="w-full"
+                >
                   Let's Go
                 </Button>
               </div>

@@ -1,7 +1,11 @@
 import React from 'react';
 import Button from './ui/Button';
 
-export function Hero() {
+interface HeroProps {
+  onCtaClick: () => void;
+}
+
+export function Hero({ onCtaClick }: HeroProps) {
   return (
     <section
       aria-label="Hero"
@@ -15,10 +19,14 @@ export function Hero() {
           Cleaner than brand new, same day
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-[color:var(--fg-dim)]">
-          Premium mobile detailing that restores your car’s showroom shine.
+          Premium mobile detailing that restores your car's showroom shine.
         </p>
         <div className="mt-8 flex justify-center">
-          <Button as="a" href="#pricing" aria-label="See pricing options" className="text-base">
+          <Button
+            onClick={onCtaClick}
+            aria-label="See pricing options"
+            className="text-base"
+          >
             Clean my car now!
           </Button>
         </div>
