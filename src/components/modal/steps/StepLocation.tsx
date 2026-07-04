@@ -54,6 +54,9 @@ export function StepLocation({
   const justSelectedRef = useRef(false);
   const justReverseGeocodedRef = useRef(false);
 
+  /** Prevent repeated auto-detection attempts */
+  const didAutodetectRef = useRef(false);
+
   /** Whether the map panel is expanded */
   const [showMap, setShowMap] = useState(false);
   /** "Pick on map" click-to-drop mode */
@@ -84,6 +87,73 @@ export function StepLocation({
     });
     inputRef.current?.focus();
   };
+
+  // ── Automatic location detection (on first load) ───────────────────────────
+  // If allowed, we use the user's current coordinates as the initial location.
+  // This ensures the booking flow can proceed as soon as we have coords.
+
+  useEffect(() => {
+    if (didAutodetectRef.current) return;
+
+    // If coords already exist (e.g., user navigated back), just center the map.
+    if (typeof location.lat === 'number' && typeof location.lng === 'number') {
+      didAutodetectRef.current = true;
+      setMapCenter({ lat: location.lat, lng: location.lng });
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      didAutodetectRef.current = true;
+      return;
+    }
+
+    didAutodetectRef.current = true;
+    let cancelled = false;
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        if (cancelled) return;
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        setMapCenter({ lat, lng });
+
+        try {
+          const resolved = await reverseGeocode(lat, lng);
+          if (cancelled) return;
+
+          justReverseGeocodedRef.current = true;
+          setTimeout(() => {
+            justReverseGeocodedRef.current = false;
+          }, 600);
+
+          setSearchText(resolved.displayName);
+          const parsed = parseToAddress(resolved.displayName, resolved.rawAddress);
+
+          onChange({
+            ...location,
+            address1: parsed.address1,
+            city: parsed.city,
+            state: parsed.state,
+            zip: parsed.zip,
+            lat,
+            lng,
+          });
+        } catch {
+          // Even if reverse geocoding fails, keep the coords.
+          onChange({ ...location, lat, lng });
+        }
+      },
+      () => {
+        /* user denied or unavailable — keep DEFAULT_CENTER */
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60_000 },
+    );
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location, onChange]);
 
   // ── Debounced forward geocoding (500 ms) ─────────────────────────────────────
 

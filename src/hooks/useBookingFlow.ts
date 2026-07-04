@@ -68,7 +68,7 @@ export function useBookingFlow() {
 
   const canProceedLocation = useMemo(() => {
     const loc = state.location;
-    return !!(loc.address1.trim() && loc.city.trim() && loc.state.trim() && loc.zip.trim());
+    return typeof loc.lat === 'number' && typeof loc.lng === 'number';
   }, [state.location]);
 
   const canProceedContact = useMemo(() => {

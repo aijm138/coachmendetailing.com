@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 /* Global base styles */
+
+/* Map modal styles */
+.map-modal {
+  background-color: white;
+  /* Additional styles for the map modal */
+}
 @layer base {
   html { -webkit-text-size-adjust: 100%; }
   body {

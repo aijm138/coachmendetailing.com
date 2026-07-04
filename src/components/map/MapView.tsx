@@ -153,10 +153,10 @@ export function MapView({
         // Disable scroll zoom so the form page can still scroll over the map
         scrollWheelZoom={false}
       >
-        {/* CartoDB Dark Matter — matches Kanagawa Dragon theme perfectly */}
+        {/* CartoDB Positron (light) — white map background for modal */}
         <TileLayer
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
 
         <ClickHandler enabled={selectionMode} onMapClick={onMapClick ?? (() => {})} />
@@ -180,33 +180,6 @@ export function MapView({
           </Marker>
         )}
       </MapContainer>
-
-      {/* Selection-mode overlay pill */}
-      {selectionMode && (
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-3 px-4 py-2 rounded-xl border shadow-xl text-sm font-medium backdrop-blur-sm"
-          style={{
-            backgroundColor: 'rgba(22,22,29,0.92)',
-            borderColor: '#E6C384',
-            color: '#DCD7BA',
-          }}
-        >
-          <span
-            className="w-2 h-2 rounded-full animate-pulse flex-shrink-0"
-            style={{ backgroundColor: '#E6C384' }}
-          />
-          Click anywhere on the map to pin your location
-          <button
-            onClick={onCancelSelection}
-            className="ml-1 text-xs px-2 py-1 rounded transition-colors"
-            style={{ color: '#727169' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#DCD7BA')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#727169')}
-            aria-label="Cancel map selection"
-          >
-            Cancel
-          </button>
-        </div>
-      )}
     </div>
   );
 }
