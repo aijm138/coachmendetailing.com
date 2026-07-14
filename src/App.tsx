@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 import Hero from './components/Hero';
-import Pricing from './components/Pricing';
+import EmailCTA from './components/EmailCTA';
 
 export default function App() {
   return (
@@ -10,7 +10,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <div className="relative z-10 bg-[color:var(--bg)]">
-          <Pricing />
+          <EmailCTA />
           <footer id="contact" className="border-t border-[color:var(--border)] py-10">
             <div className="container-page text-sm text-[color:var(--fg-dim)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <p>© {new Date().getFullYear()} Coachmen Detailing. All rights reserved.</p>

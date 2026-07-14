@@ -18,7 +18,7 @@ export function Hero() {
           Premium mobile detailing that restores your car’s showroom shine.
         </p>
         <div className="mt-8 flex justify-center">
-          <Button as="a" href="#pricing" aria-label="See pricing options" className="text-base">
+          <Button as="a" href="#early-bird" aria-label="Sign up for early bird discount" className="text-base">
             Clean my car now!
           </Button>
         </div>
