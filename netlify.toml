@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect /api/contacts to the serverless function.
+# The browser sees the request as same-origin (/api/contacts),
+# but Netlify routes it to the function internally.
+[[redirects]]
+  from = "/api/contacts"
+  to   = "/.netlify/functions/contacts"
+  status = 200

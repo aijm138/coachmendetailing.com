@@ -41,7 +41,7 @@ const MIME = {
   '.ico':  'image/x-icon',
   '.webp': 'image/webp',
   '.woff2':'font/woff2',
-} satisfies Record<string, string>;
+};
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
