@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './ui/Button';
 
 const slideshowImages = [
@@ -16,87 +16,25 @@ const slideshowImages = [
   '/hero_slideshow/11.jpg',
 ];
 
-type SlideDirection = 'left' | 'right' | 'top' | 'bottom';
-
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState<SlideDirection>('left');
 
-  const getRandomDirection = useCallback((): SlideDirection => {
-    const directions: SlideDirection[] = ['left', 'right', 'top', 'bottom'];
-    return directions[Math.floor(Math.random() * directions.length)]!;
-  }, []);
-
-  // Auto-advance slideshow every 5 seconds
+  // Auto-advance every 5 seconds with simple fade
   useEffect(() => {
     const interval = setInterval(() => {
-      setPrevIndex(currentIndex);
-      const nextIndex = (currentIndex + 1) % slideshowImages.length;
-      setCurrentIndex(nextIndex);
-      setDirection(getRandomDirection());
+      setCurrentIndex((prev) => (prev + 1) % slideshowImages.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, getRandomDirection]);
+  }, []);
 
-  // Preload all images
+  // Preload images
   useEffect(() => {
     slideshowImages.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
   }, []);
-
-  const getSlideStyle = (idx: number, isActive: boolean) => {
-    if (!isActive && idx !== prevIndex) return { display: 'none' as const };
-
-    const isExiting = idx === prevIndex;
-    let transform = 'translateX(-50%)';
-    let opacity = isActive ? 1 : 0;
-
-    const offset = 25;
-
-    if (isExiting) {
-      switch (direction) {
-        case 'left':
-          transform = `translateX(calc(-50% - ${offset}vw))`;
-          break;
-        case 'right':
-          transform = `translateX(calc(-50% + ${offset}vw))`;
-          break;
-        case 'top':
-          transform = `translateX(-50%) translateY(-${offset}vh)`;
-          break;
-        case 'bottom':
-          transform = `translateX(-50%) translateY(${offset}vh)`;
-          break;
-      }
-      opacity = 0;
-    } else if (idx === currentIndex) {
-      switch (direction) {
-        case 'left':
-          transform = `translateX(calc(-50% + ${offset}vw))`;
-          break;
-        case 'right':
-          transform = `translateX(calc(-50% - ${offset}vw))`;
-          break;
-        case 'top':
-          transform = `translateX(-50%) translateY(${offset}vh)`;
-          break;
-        case 'bottom':
-          transform = `translateX(-50%) translateY(-${offset}vh)`;
-          break;
-      }
-      opacity = 1;
-    }
-
-    return {
-      opacity,
-      transform,
-      transition: 'all 1100ms cubic-bezier(0.32, 0.72, 0, 1)',
-    };
-  };
 
   return (
     <section
@@ -105,25 +43,20 @@ export function Hero() {
       style={{ backgroundColor: '#000' }}
     >
       {/* Slideshow */}
-      <div className="absolute inset-0 bg-black overflow-hidden">
-        {slideshowImages.map((src, idx) => {
-          const isActive = idx === currentIndex;
-          const style = getSlideStyle(idx, isActive);
-
-          return (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              className="absolute top-0 left-1/2 h-full w-auto max-w-none"
-              style={{
-                ...style,
-                zIndex: isActive ? 2 : 1,
-              }}
-              aria-hidden="true"
-            />
-          );
-        })}
+      <div className="absolute inset-0 bg-black">
+        {slideshowImages.map((src, idx) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000"
+            style={{
+              opacity: idx === currentIndex ? 1 : 0,
+              zIndex: idx === currentIndex ? 2 : 1,
+            }}
+            aria-hidden="true"
+          />
+        ))}
       </div>
 
       {/* Dark overlay */}
