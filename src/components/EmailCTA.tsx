@@ -49,13 +49,24 @@ export function EmailCTA() {
             id="early-bird-heading"
             className="text-3xl font-bold tracking-tight sm:text-4xl"
           >
-            Early Bird Get's a Discount
+            Early Bird Gets a Discount
           </h2>
-          <p className="mt-4 leading-relaxed text-[color:var(--fg-dim)]">
-            We're just getting started — and we want to reward the first customers
-            who believe in us. Sign up with your email during this limited-time
-            early-bird period, and you'll receive an exclusive discount on your
-            first detail. No catch, just a thank-you for being an early supporter.
+          <p className="mt-4 leading-relaxed justify text-[color:var(--fg-dim)]">
+
+                      We're just getting started and we want to reward the first customers
+                      who believe in us.
+
+
+          </p>
+
+          <p className="mt-4 leading-relaxed justify text-[color:var(--fg-dim)]">
+                      Sign up with your email during this limited-time
+                      early-bird period.
+          </p>
+
+          <p className="mt-4 leading-relaxed justify text-[color:var(--fg-dim)]">
+                      You'll receive an exclusive discount on your
+                      first detail. No catch, just a thank-you for being an early supporter.
           </p>
 
           <form
